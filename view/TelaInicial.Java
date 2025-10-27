@@ -4,16 +4,123 @@
  */
 package view;
 
+import controller.ControleBusca;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
 /**
  *
  * @author isaso
  */
 public class TelaInicial extends javax.swing.JFrame {
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaInicial.class.getName());
+
     /**
      * Creates new form TelaInicial
      */
     public TelaInicial() {
         initComponents();
+        c = new ControleBusca(this);
+    }
+
+    public ControleBusca getC() {
+        return c;
+    }
+
+    public void setC(ControleBusca c) {
+        this.c = c;
+    }
+
+    public JButton getBtBuscar() {
+        return btBuscar;
+    }
+
+    public void setBtBuscar(JButton btBuscar) {
+        this.btBuscar = btBuscar;
+    }
+
+    public JButton getjButton1() {
+        return jButton1;
+    }
+
+    public void setjButton1(JButton jButton1) {
+        this.jButton1 = jButton1;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public void setjScrollPane1(JScrollPane jScrollPane1) {
+        this.jScrollPane1 = jScrollPane1;
+    }
+
+    public JScrollPane getjScrollPane2() {
+        return jScrollPane2;
+    }
+
+    public void setjScrollPane2(JScrollPane jScrollPane2) {
+        this.jScrollPane2 = jScrollPane2;
+    }
+
+    public JLabel getLblBuscar() {
+        return lblBuscar;
+    }
+
+    public void setLblBuscar(JLabel lblBuscar) {
+        this.lblBuscar = lblBuscar;
+    }
+
+    public JLabel getLblTelaInicial() {
+        return lblTelaInicial;
+    }
+
+    public void setLblTelaInicial(JLabel lblTelaInicial) {
+        this.lblTelaInicial = lblTelaInicial;
+    }
+
+    public JList<String> getListBusca() {
+        return listBusca;
+    }
+
+    public void setListBusca(JList<String> listBusca) {
+        this.listBusca = listBusca;
+    }
+
+    public JList<String> getListMaisPedidos() {
+        return listMaisPedidos;
+    }
+
+    public void setListMaisPedidos(JList<String> listMaisPedidos) {
+        this.listMaisPedidos = listMaisPedidos;
+    }
+
+    public JTextField getTxtBuscarPedido() {
+        return txtBuscarPedido;
+    }
+
+    public void setTxtBuscarPedido(JTextField txtBuscarPedido) {
+        this.txtBuscarPedido = txtBuscarPedido;
+    }
+
+    public JButton getBtAvaliar() {
+        return btAvaliar;
+    }
+
+    public void setBtAvaliar(JButton btAvaliar) {
+        this.btAvaliar = btAvaliar;
+    }
+
+    public JButton getBtCadastrar() {
+        return btCadastrar;
+    }
+
+    public void setBtCadastrar(JButton btCadastrar) {
+        this.btCadastrar = btCadastrar;
     }
 
     /**
@@ -25,31 +132,107 @@ public class TelaInicial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        txtTelaInicial = new javax.swing.JLabel();
+        lblTelaInicial = new javax.swing.JLabel();
+        lblBuscar = new javax.swing.JLabel();
+        txtBuscarPedido = new javax.swing.JTextField();
+        btBuscar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listMaisPedidos = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listBusca = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
+        btCadastrar = new javax.swing.JButton();
+        btAvaliar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtTelaInicial.setText("Tela Inicial");
+        lblTelaInicial.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTelaInicial.setText("Olá!");
+
+        lblBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblBuscar.setText("Busca de Pedido");
+
+        btBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btBuscar.setText("Buscar");
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(listMaisPedidos);
+
+        jScrollPane2.setViewportView(listBusca);
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Estabelecimento Garfort");
+
+        btCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btCadastrar.setText("Cadastrar Pedido");
+
+        btAvaliar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btAvaliar.setText("Avaliar Pedido");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(txtTelaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(307, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblTelaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBuscarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btBuscar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btAvaliar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(txtTelaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(lblTelaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                    .addComponent(txtBuscarPedido)
+                    .addComponent(lblBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btAvaliar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>                        
+
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        c.buscaEExibir();
+    }                                        
 
     /**
      * @param args the command line arguments
@@ -75,8 +258,19 @@ public class TelaInicial extends javax.swing.JFrame {
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(() -> new TelaInicial().setVisible(true));
 //    }
-
+    
+    private ControleBusca c;
     // Variables declaration - do not modify                     
-    private javax.swing.JLabel txtTelaInicial;
+    private javax.swing.JButton btAvaliar;
+    private javax.swing.JButton btBuscar;
+    private javax.swing.JButton btCadastrar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblBuscar;
+    private javax.swing.JLabel lblTelaInicial;
+    private javax.swing.JList<String> listBusca;
+    private javax.swing.JList<String> listMaisPedidos;
+    private javax.swing.JTextField txtBuscarPedido;
     // End of variables declaration                   
 }
