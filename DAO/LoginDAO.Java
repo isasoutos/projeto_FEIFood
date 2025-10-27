@@ -29,3 +29,14 @@ public class LoginDAO {
         return resultado;
     }
 }
+
+public void inserir(Login1 login1) throws SQLException{
+        String sql = "INSERT INTO login(nome,usuario,senha) "
+                + "values('"+ login1.getNome() +"', '"
+                + login1.getUsuario() +"'"
+                +", '"+ login1.getSenha() +"')";
+        PreparedStatement statement = conexao.prepareStatement(sql);
+        statement.execute();
+        conexao.close();
+    }
+}
