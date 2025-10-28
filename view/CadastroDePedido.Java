@@ -35,20 +35,20 @@ public class CadastroDePedido extends javax.swing.JFrame {
         this.btAdicionar = btAdicionar;
     }
 
-    public JButton getBtEditar() {
-        return btEditar;
+    public JButton getBtExcluirPedido() {
+        return btExcluirPedido;
     }
 
-    public void setBtEditar(JButton btEditar) {
-        this.btEditar = btEditar;
+    public void setBtExcluirPedido(JButton btExcluirPedido) {
+        this.btExcluirPedido = btExcluirPedido;
     }
 
     public JButton getBtExcluir() {
-        return btExcluir;
+        return btExcluirPedido;
     }
 
     public void setBtExcluir(JButton btExcluir) {
-        this.btExcluir = btExcluir;
+        this.btExcluirPedido = btExcluir;
     }
 
     public JButton getBtSolicitar() {
@@ -160,8 +160,8 @@ public class CadastroDePedido extends javax.swing.JFrame {
         txtQuantidade = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         listPedido = new javax.swing.JList<>();
-        btEditar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
+        btExcluirPedido = new javax.swing.JButton();
         btAdicionar = new javax.swing.JButton();
         btSolicitar = new javax.swing.JButton();
         lblTotalGeral = new javax.swing.JLabel();
@@ -186,11 +186,21 @@ public class CadastroDePedido extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(listPedido);
 
-        btEditar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btEditar.setText("Editar");
-
         btExcluir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btExcluir.setText("Excluir Pedido");
+        btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
+
+        btExcluirPedido.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btExcluirPedido.setText("Excluir Pedido");
+        btExcluirPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirPedidoActionPerformed(evt);
+            }
+        });
 
         btAdicionar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btAdicionar.setText("Adicionar");
@@ -202,6 +212,11 @@ public class CadastroDePedido extends javax.swing.JFrame {
 
         btSolicitar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btSolicitar.setText("Solicitar Pedido");
+        btSolicitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSolicitarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -231,11 +246,11 @@ public class CadastroDePedido extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(btAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btExcluirPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jScrollPane1))))))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
@@ -255,17 +270,17 @@ public class CadastroDePedido extends javax.swing.JFrame {
                     .addComponent(lblQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(btExcluir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblTotalGeral, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btExcluirPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
 
@@ -276,6 +291,21 @@ public class CadastroDePedido extends javax.swing.JFrame {
         // TODO add your handling code here:
     c.adicionarItem();
     }                                           
+
+    private void btSolicitarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+        c.solicitarPedido();
+    }                                           
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        c.excluirItem();
+    }                                         
+
+    private void btExcluirPedidoActionPerformed(java.awt.event.ActionEvent evt) {                                                
+        // TODO add your handling code here:
+        c.excluirPedido();
+    }                                               
 
     /**
      * @param args the command line arguments
@@ -305,8 +335,8 @@ public class CadastroDePedido extends javax.swing.JFrame {
     private ControlePedido c;
     // Variables declaration - do not modify                     
     private javax.swing.JButton btAdicionar;
-    private javax.swing.JButton btEditar;
     private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btExcluirPedido;
     private javax.swing.JButton btSolicitar;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
