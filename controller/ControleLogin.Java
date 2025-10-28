@@ -19,6 +19,7 @@ import view.TelaInicial;
  *
  * @author unicisouza
  */
+
 public class ControleLogin {
     private Login tela1, tela2;
 
@@ -49,10 +50,10 @@ public class ControleLogin {
                                             JOptionPane.ERROR_MESSAGE);
             }
         }catch(SQLException e){
-        e.printStackTrace(); // <--- ISTO É VITAL, APARECE NO CONSOLE DO NETBEANS
+        e.printStackTrace();
         
         JOptionPane.showMessageDialog(tela1,
-                                     "ERRO REAL: " + e.getMessage(), // <-- ISTO MOSTRA NO POP-UP
+                                     "ERRO REAL: " + e.getMessage(), 
                                      "Falha",
                                      JOptionPane.ERROR_MESSAGE);
     }
