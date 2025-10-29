@@ -7,6 +7,7 @@ package controller;
 import DAO.Conexao;
 import DAO.PedidoDAO;
 import DAO.AlimentoDAO;
+import DAO.EstabelecimentoDAO;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,74 +26,22 @@ import view.CadastroDePedido;
 public class ControlePedido {
     private CadastroDePedido tela4;
     private List<ItemPedido> itensDoPedido = new ArrayList<>();
-    private DefaultListModel<String> listModel; 
+    private DefaultListModel<String> listModel;
+    private DefaultListModel<String> cardapioListModel;
     private final int ID_CLIENTE_FIXO = 1; 
-    private final int ID_ESTABELECIMENTO_FIXO = 1; 
+    private int idEstabelecimentoAtual = -1;
 
     public ControlePedido(CadastroDePedido tela4) {
         this.tela4 = tela4;
-        this.listModel = new DefaultListModel<>(); 
+        this.listModel = new DefaultListModel<>();
+        this.cardapioListModel = new DefaultListModel<>(); 
+        tela4.getListCardapio().setModel(this.cardapioListModel);
         tela4.getListPedido().setModel(this.listModel); 
     }
 
     public double calcularTotal() {
         return itensDoPedido.stream().
                 mapToDouble(ItemPedido::getSubtotal).sum();
-    }
-
-    public void adicionarItem() {
-        String nomeProduto = tela4.getTxtPedido().getText().trim();
-        String qtdText = tela4.getTxtQuantidade().getText().trim();
-
-        if (nomeProduto.isEmpty() || qtdText.isEmpty()) {
-            JOptionPane.showMessageDialog(tela4, 
-                    "Preencha o Produto e a Quantidade.", 
-                    "Aviso", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        int quantidade;
-        try {
-            quantidade = Integer.parseInt(qtdText);
-            if (quantidade <= 0) throw new NumberFormatException();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(tela4, "Quantidade inválida.", 
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        Connection conn = null;
-        try {
-            conn = new Conexao().getConnection();
-            AlimentoDAO alimentoDAO = new AlimentoDAO(conn);
-            ResultSet rs = alimentoDAO.buscarDetalheProduto(nomeProduto);
-            
-            if (rs.next()) {
-                int idProduto = rs.getInt("id_produto");
-                double precoBase = rs.getDouble("preco");
-                String categoria = rs.getString("categoria");
-                
-                ItemPedido novoItem = new ItemPedido(idProduto, nomeProduto, 
-                        precoBase, quantidade, categoria);
-                
-                itensDoPedido.add(novoItem);
-                atualizarCarrinho();
-                
-                tela4.getTxtPedido().setText("");
-                tela4.getTxtQuantidade().setText("");
-                
-            } else {
-                JOptionPane.showMessageDialog(tela4, "Produto '" 
-                        + nomeProduto + "' não encontrado.",
-                        "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(tela4, "Erro SQL: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            if (conn != null) { try { conn.close(); 
-            } catch (SQLException e) { e.printStackTrace(); } }
-        }
     }
 
     private void atualizarCarrinho() {
@@ -112,8 +61,115 @@ public class ControlePedido {
                                 totalGeral);
 
         tela4.getLblTotalGeral().setText(totalFormatado); 
-    }
+        }
+    
+        public void carregarCardapio() {
+        String nomeEstabelecimento = tela4.getTxtPedido1().getText().trim(); 
+    
+        DefaultListModel<String> cardapioListModel = (DefaultListModel<String>) 
+                tela4.getListCardapio().getModel();
+    
+        cardapioListModel.clear();
 
+        if (nomeEstabelecimento.isEmpty()) {
+            cardapioListModel.addElement("--- Digite o Estabelecimento ---");
+            return;
+        }
+    
+        Connection conn = null;
+        try {
+            conn = new Conexao().getConnection();
+            EstabelecimentoDAO estabDao = new EstabelecimentoDAO(conn);
+            int idEncontrado = estabDao.buscarIdPorNome(nomeEstabelecimento);
+        
+            if (idEncontrado != -1) {
+                this.idEstabelecimentoAtual = idEncontrado; 
+            
+                AlimentoDAO alimentoDao = new AlimentoDAO(conn);
+                ResultSet rs = alimentoDao.buscarEstabelecimento(idEncontrado);
+            
+                cardapioListModel.addElement("Selecione o Produto:"); 
+                while (rs.next()) {
+                    String nome = rs.getString("nome");
+                    double preco = rs.getDouble("preco");
+                
+                    String linhaCardapio = String.format("%s (R$ %.2f)", 
+                                                        nome, preco); 
+                    cardapioListModel.addElement(linhaCardapio);
+                }
+            
+            } else {
+                JOptionPane.showMessageDialog(tela4, 
+                        "Estabelecimento não encontrado!", 
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                cardapioListModel.addElement("Estabelecimento Inválido");
+            }
+        
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(tela4, 
+                    "Erro de acesso ao banco: " + e.getMessage(), 
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (conn != null) { 
+                try { conn.close(); 
+            } catch (SQLException e) {
+                e.printStackTrace(); 
+                } 
+            }
+        }
+    }
+    
+    public void adicionarItem() {
+        String itemSelecionadoComPreco = 
+                tela4.getListCardapio().getSelectedValue(); 
+        int quantidade = 1;
+
+        if (itemSelecionadoComPreco == null 
+                || itemSelecionadoComPreco.startsWith("---")) { 
+            JOptionPane.showMessageDialog(tela4, 
+                    "Selecione um produto no cardápio.", 
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    
+        String nomeProduto = itemSelecionadoComPreco.split(" \\(")[0];
+        Connection conn = null;
+        
+        try {
+            conn = new Conexao().getConnection();
+            AlimentoDAO alimentoDAO = new AlimentoDAO(conn);
+            ResultSet rs = alimentoDAO.buscarProdutoDeta(nomeProduto);
+        
+            if (rs.next()) {
+                int idProduto = rs.getInt("id_produto");
+                double precoBase = rs.getDouble("preco");
+                String categoria = rs.getString("categoria");
+                ItemPedido novoItem = new ItemPedido(idProduto, nomeProduto, 
+                                    precoBase, quantidade, categoria);
+                itensDoPedido.add(novoItem); 
+                atualizarCarrinho();
+            
+            } else {
+                JOptionPane.showMessageDialog(tela4, 
+                        "Erro: Detalhes do produto não encontrados no banco.", 
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(tela4, 
+                        "Erro SQL: " + e.getMessage(), 
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (conn != null) { 
+                try { conn.close(); 
+                
+            } catch (SQLException e) {
+                e.printStackTrace(); } 
+            }
+        }
+    }
+    
     public void solicitarPedido() {
         if (itensDoPedido.isEmpty()) {
             JOptionPane.showMessageDialog(tela4, 
@@ -130,7 +186,7 @@ public class ControlePedido {
 
             double totalGeral = calcularTotal();
             int idPedido = pedidoDAO.inserirPedido(ID_CLIENTE_FIXO, 
-                    ID_ESTABELECIMENTO_FIXO, totalGeral);
+                    idEstabelecimentoAtual, totalGeral);
 
             if (idPedido == -1) throw new SQLException
         ("Falha ao obter ID do pedido.");
